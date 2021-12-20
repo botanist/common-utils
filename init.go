@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 	"sync"
+	"time"
 )
 
 var addrLookup map[string]string
@@ -16,7 +17,7 @@ const EnvSvcAddrSuffix = "_ADDR"
 func init() {
 	// enumerate env
 	addrLookup = getEnvServices()
-	client = &http.Client{}
+	client = &http.Client{Timeout: time.Second * 30}
 }
 
 func getEnvServices() map[string]string {
