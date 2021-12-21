@@ -2,15 +2,12 @@ package serviceutils
 
 import (
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 )
 
 func Get(svc string, path string, query *url.Values, jwt string, h http.Header) ([]byte, error) {
 	url := buildUrl(svc, path, query)
-
-	log.Println(url)
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
