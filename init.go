@@ -27,6 +27,7 @@ func getEnvServices() map[string]string {
 		if strings.HasSuffix(parts[0], EnvSvcAddrSuffix) {
 
 			svc := strings.TrimSuffix(parts[0], EnvSvcAddrSuffix)
+			svc = strings.ReplaceAll(svc, "_", "-")
 			m[strings.ToLower(svc)] = parts[1]
 		}
 	}

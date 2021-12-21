@@ -9,7 +9,8 @@ func buildUrl(svc string, path string, query *url.Values) string {
 	addr, ok := addrLookup[svc]
 	if !ok {
 		addrLookupMutex.Lock()
-		addrLookup[svc] = fmt.Sprintf("http://%s:8080", svc)
+		addr = fmt.Sprintf("http://%s:8080", svc)
+		addrLookup[svc] = addr
 		addrLookupMutex.Unlock()
 	}
 
