@@ -12,9 +12,9 @@ func TestFindAddrFromEnvironment(t *testing.T) {
 	m := getEnvServices()
 	assert.Empty(t, m)
 
-	os.Setenv("AUTH_ADDR", "http://localhost:3000")
-	os.Setenv("ACCOUNT_ADDR", "http://localhost:3001")
-	os.Setenv("SITE_ADDR", "http://localhost:3002")
+	os.Setenv("AUTH_SERVICE_ADDR", "http://localhost:3000")
+	os.Setenv("ACCOUNT_SERVICE_ADDR", "http://localhost:3001")
+	os.Setenv("SITE_SERVICE_ADDR", "http://localhost:3002")
 
 	m = getEnvServices()
 	assert.NotEmpty(t, m)
