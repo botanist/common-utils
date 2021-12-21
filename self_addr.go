@@ -20,9 +20,10 @@ func DecodeServiceEnv(s string) (bool, string, int) {
 		return false, "", 0
 	}
 
-	port := 0
-	if p, err := strconv.Atoi(u.Port()); err == nil {
-		port = p
+	port, err := strconv.Atoi(u.Port())
+	if err != nil {
+		log.Println(err)
+		return false, "", 0
 	}
 
 	return true, u.Hostname(), port
