@@ -8,7 +8,7 @@ import (
 	"net/url"
 )
 
-func PostJSON(svc string, path string, query *url.Values, jwt string, h http.Header, d interface{}, r interface{}) (int, error) {
+func sendJSON(m string, svc string, path string, query *url.Values, jwt string, h http.Header, d interface{}, r interface{}) (int, error) {
 	url := buildUrl(svc, path, query)
 
 	b := new(bytes.Buffer)
@@ -21,6 +21,8 @@ func PostJSON(svc string, path string, query *url.Values, jwt string, h http.Hea
 	if err != nil {
 		return 0, err
 	}
+
+	req.Method = m
 
 	req.Header.Set("Authorization", "Bearer "+jwt)
 	req.Header.Set("Content-Type", "application/json")
@@ -50,4 +52,12 @@ func PostJSON(svc string, path string, query *url.Values, jwt string, h http.Hea
 
 	err = json.Unmarshal(rb, r)
 	return s, err
+}
+
+func PostJSON(svc string, path string, query *url.Values, jwt string, h http.Header, d interface{}, r interface{}) (int, error) {
+	return sendJSON(http.MethodPost, svc, path, query, jwt, h, d, r)
+}
+
+func PatchJSON(svc string, path string, query *url.Values, jwt string, h http.Header, d interface{}, r interface{}) (int, error) {
+	return sendJSON(http.MethodPatch, svc, path, query, jwt, h, d, r)
 }
