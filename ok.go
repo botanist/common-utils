@@ -8,7 +8,7 @@ import (
 
 func SendOK(res http.ResponseWriter, statusCode int, msg string) {
 	e := struct {
-		OK  bool   `json:"ok"`
+		Ok  bool   `json:"ok"`
 		Msg string `json:"msg"`
 	}{true, msg}
 

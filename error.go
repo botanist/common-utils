@@ -8,7 +8,7 @@ import (
 
 type RemoteError struct {
 	StatusCode int
-	OK         bool   `json:"ok"`
+	Ok         bool   `json:"ok"`
 	ErrorMsg   string `json:"error"`
 }
 
