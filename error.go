@@ -7,17 +7,18 @@ import (
 )
 
 type RemoteError struct {
-	StatusCode int
 	Ok         bool   `json:"ok"`
-	ErrorMsg   string `json:"error"`
+	Msg        string `json:"error"`
+	StatusCode int
 }
 
 type NoError struct {
-	OK bool `json:"ok"`
+	OK  bool   `json:"ok"`
+	Msg string `json:"msg"`
 }
 
 func (r RemoteError) Error() string {
-	return r.ErrorMsg
+	return r.Msg
 }
 
 func SendError(res http.ResponseWriter, statusCode int, err error) {
