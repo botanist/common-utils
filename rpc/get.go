@@ -1,10 +1,12 @@
-package serviceutils
+package rpc
 
 import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	"github.com/botanist/common-utils/httputils"
 )
 
 func Get(svc string, path string, query *url.Values, jwt string, h http.Header) (int, []byte, error) {
@@ -37,7 +39,7 @@ func GetJSON(svc string, path string, query *url.Values, jwt string, h http.Head
 	}
 
 	if s != http.StatusOK {
-		var e RemoteError
+		var e httputils.RemoteError
 		err = json.Unmarshal(b, &e)
 		if err != nil {
 			return 0, err

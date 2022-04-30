@@ -1,4 +1,4 @@
-package serviceutils
+package rpc
 
 import (
 	"bytes"
@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	"github.com/botanist/common-utils/httputils"
 )
 
 func PostRaw(svc string, path string, query *url.Values, jwt string, h http.Header, data []byte, r interface{}) (int, error) {
@@ -35,7 +37,7 @@ func PostRaw(svc string, path string, query *url.Values, jwt string, h http.Head
 	s := res.StatusCode
 
 	if s != http.StatusOK {
-		var e RemoteError
+		var e httputils.RemoteError
 		err = json.Unmarshal(rb, &e)
 		if err != nil {
 			return 0, err
@@ -80,7 +82,7 @@ func sendJSON(m string, svc string, path string, query *url.Values, jwt string, 
 	s := res.StatusCode
 
 	if s != http.StatusOK {
-		var e RemoteError
+		var e httputils.RemoteError
 		err = json.Unmarshal(rb, &e)
 		if err != nil {
 			return 0, err

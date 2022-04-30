@@ -1,4 +1,4 @@
-package serviceutils
+package httputils
 
 import (
 	"encoding/json"

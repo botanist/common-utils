@@ -1,8 +1,10 @@
-package serviceutils
+package entities
 
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/botanist/common-utils/rpc"
 )
 
 type Entity struct {
@@ -20,7 +22,7 @@ type Entity struct {
 
 func GetEntity(jwt string, site string, id string) (*Entity, int, error) {
 	var entity Entity
-	rs, err := GetJSON("entity-service", fmt.Sprintf("/v1/entity/%s/%s", site, id), nil, jwt, nil, &entity)
+	rs, err := rpc.GetJSON("entity-service", fmt.Sprintf("/v1/entity/%s/%s", site, id), nil, jwt, nil, &entity)
 	if rs != http.StatusOK {
 		return nil, rs, err
 	}
