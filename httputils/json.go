@@ -1,4 +1,4 @@
-package rpc
+package httputils
 
 import (
 	"encoding/json"
