@@ -1,4 +1,4 @@
-package jwt
+package jwtutils
 
 type Jwt struct {
 	OK    bool   `json:"ok"`
