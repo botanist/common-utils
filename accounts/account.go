@@ -20,7 +20,7 @@ type Account struct {
 
 func GetAccount(jwt string, id string) (*Account, int, error) {
 	var account Account
-	rs, err := rpc.GetJSON("account-service", fmt.Sprintf("/v1/account/%s", id), nil, jwt, nil, &account)
+	rs, err := rpc.GetJSON("api.account", fmt.Sprintf("/v1/account/%s", id), nil, jwt, nil, &account)
 	if rs != http.StatusOK {
 		return nil, rs, err
 	}
