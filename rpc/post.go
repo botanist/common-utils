@@ -69,6 +69,10 @@ func sendJSON(m string, svc string, path string, query *url.Values, jwt string, 
 
 	res, err := client.Do(req)
 	if err != nil {
+		if res == nil {
+			return http.StatusBadRequest, err
+		}
+
 		return res.StatusCode, err
 	}
 
