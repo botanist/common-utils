@@ -41,7 +41,7 @@ func getVerifier(kid string) (jwtv4.Verifier, error) {
 			return v, nil
 		}
 
-		_, b, err := rpc.Get("auth-service", fmt.Sprintf("/v1/auth/jwt/pubkey/%s", kid), nil, "", nil)
+		_, b, err := rpc.Get("api.auth", fmt.Sprintf("/v1/auth/jwt/pubkey/%s", kid), nil, "", nil)
 		if err != nil {
 			return nil, err
 		}
