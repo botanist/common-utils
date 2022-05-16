@@ -1,4 +1,4 @@
-package accounts
+package sites
 
 import (
 	"fmt"
