@@ -9,6 +9,14 @@ type Jwt struct {
 }
 
 type EntityClaims struct {
-	jwt.RegisteredClaims
+	// ID claim provides a unique identifier for the JWT.
+	ID        string           `json:"jti,omitempty"`
+	Audience  jwt.Audience     `json:"aud,omitempty"`
+	Issuer    string           `json:"iss,omitempty"`
+	Subject   string           `json:"sub,omitempty"`
+	ExpiresAt *jwt.NumericDate `json:"exp,omitempty"`
+	IssuedAt  *jwt.NumericDate `json:"iat,omitempty"`
+	NotBefore *jwt.NumericDate `json:"nbf,omitempty"`
+
 	Shard string `json:"sid,omitempty"`
 }
