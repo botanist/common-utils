@@ -67,14 +67,14 @@ func getVerifier(kid string) (jwtv4.Verifier, error) {
 	return v, nil
 }
 
-func VerifyWithClaims(req *http.Request, expectedClaims jwtv4.RegisteredClaims) (*jwtv4.Token, *jwtv4.RegisteredClaims, error) {
+func VerifyWithClaims(req *http.Request, expectedClaims jwtv4.RegisteredClaims, claims interface{}) (*jwtv4.Token, error) {
 	auth := req.Header.Get("Authorization")
 	if auth == "" {
-		return nil, nil, ErrNoAuthorizationHeader
+		return nil, ErrNoAuthorizationHeader
 	}
 
 	if !strings.HasPrefix(auth, "Bearer ") {
-		return nil, nil, ErrInvalidAuthorizationHeader
+		return nil, ErrInvalidAuthorizationHeader
 	}
 
 	// Trim Bearer
@@ -82,43 +82,42 @@ func VerifyWithClaims(req *http.Request, expectedClaims jwtv4.RegisteredClaims) 
 
 	tok, err := jwtv4.ParseNoVerify([]byte(auth))
 	if err != nil {
-		return tok, nil, err
+		return tok, err
 	}
 
 	// Verify
 	v, err := getVerifier(tok.Header().KeyID)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	err = v.Verify(tok)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	var claims jwtv4.RegisteredClaims
 	err = json.Unmarshal(tok.Claims(), &claims)
 	if err != nil {
-		return tok, &claims, err
+		return tok, err
 	}
 
 	// Check claims
-	if !claims.IsValidAt(time.Now()) {
-		return tok, &claims, ErrNotValidAtThisTime
+	if !claims.(Claims).IsValidAt(time.Now()) {
+		return tok, ErrNotValidAtThisTime
 	}
 
 	// Check subject
 	if expectedClaims.Subject != "" {
-		if !claims.IsSubject(expectedClaims.Subject) {
-			return tok, &claims, ErrSubjectClaimMismatch
+		if !claims.(Claims).IsSubject(expectedClaims.Subject) {
+			return tok, ErrSubjectClaimMismatch
 		}
 	}
 
 	if expectedClaims.Audience != nil && len(expectedClaims.Audience) > 0 {
-		if !claims.IsForAudience(expectedClaims.Audience[0]) {
-			return tok, &claims, ErrAudienceClaimMismatch
+		if !claims.(Claims).IsForAudience(expectedClaims.Audience[0]) {
+			return tok, ErrAudienceClaimMismatch
 		}
 	}
 
-	return tok, &claims, nil
+	return tok, nil
 }
